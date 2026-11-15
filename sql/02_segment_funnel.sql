@@ -1,3 +1,4 @@
+-- 기간: 2020-11-11 ~ 2021-01-31. 11/1~11/10은 transaction_id가 단일값으로 기록된 측정 오류 구간이라 팀 정제 기준에 따라 제외한다.
 -- 6단계 퍼널을 신규(ga_session_number = 1)와 재방문(>= 2)으로 나눠 단계별 도달 유저 수를 센다.
 -- 분석 단위: user_pseudo_id x 세그먼트 (같은 유저가 신규와 재방문 양쪽에 나타날 수 있음)
 WITH events AS (
@@ -6,7 +7,7 @@ WITH events AS (
     event_name,
     (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_number') AS session_number
   FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
-  WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
+  WHERE _TABLE_SUFFIX BETWEEN '20201111' AND '20210131'
 ),
 flags AS (
   SELECT

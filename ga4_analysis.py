@@ -52,7 +52,7 @@ def channel_summary(ch: pd.DataFrame) -> pd.DataFrame:
 def impact_scenarios(seg: pd.DataFrame, aov_new: float) -> pd.DataFrame:
     """신규 결제완료율을 끌어올렸을 때의 추가 구매 건수와 매출(USD) 추정."""
     s = seg.set_index("segment")
-    comp = checkout_completion(seg)
+    comp = 100 * s["s6_purchase"] / s["s4_begin_checkout"]  # 반올림 전 값으로 계산
     base, target = comp["new"], comp["returning"]
     n_checkout = s.loc["new", "s4_begin_checkout"]
     rows = [("현재", base)]
